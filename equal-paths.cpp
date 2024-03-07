@@ -16,18 +16,31 @@ int getHeight(Node *node) {
 	return 1 + max(getHeight(node->left), getHeight(node->right));
 }
 
+bool helper(Node *node, int currDepth, int &currLeafDepth){
+    if (node == nullptr){
+        if(currLeafDepth == -1){
+            currLeafDepth = currDepth;
+            return true;
+        } else {
+            if(currDepth != currLeafDepth){
+                return false;
+            }
+            return true;
+        }
+    }
+
+    return helper(node->left, currDepth + 1, currLeafDepth) && helper(node->right, currDepth + 1, currLeafDepth);
+		
+}
+
 bool equalPaths(Node * root)
 {
     // Add your code below
     if (root == nullptr)
 		return true;
 
-    if(!root->left || !root->right)
-        return true;
-
-	if (getHeight(root->left) - getHeight(root->right) != 0) return false;
-
-	return true;
-
+    int currLeafDepth = -1;
+	return helper(root->left, 0, currLeafDepth)  && helper(root->right, 0, currLeafDepth);
 }
+
 
