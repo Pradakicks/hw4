@@ -17,7 +17,8 @@ int getHeight(Node *node) {
 }
 
 bool helper(Node *node, int currDepth, int &currLeafDepth){
-    if (node == nullptr){
+    if(node == nullptr) return true;
+    if (node->left == nullptr && node->right == nullptr){
         if(currLeafDepth == -1){
             currLeafDepth = currDepth;
             return true;
