@@ -22,6 +22,9 @@ bool equalPaths(Node * root)
     if (root == nullptr)
 		return true;
 
+    if(!root->left || !root->right)
+        return true;
+
 	if (getHeight(root->left) - getHeight(root->right) != 0) return false;
 
 	return true;
