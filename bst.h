@@ -200,7 +200,7 @@ public:
     virtual void remove(const Key& key); //TODO
     void clear(); //TODO
     bool isBalanced() const; //TODO
-    bool isBalanced(Node<Key,Value>* curr) const; //TODO
+    // bool isBalanced(Node<Key,Value>* curr) const; //TODO
     void print() const;
     bool empty() const;
 
@@ -655,22 +655,23 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
 
 	if (std::abs(l - r) > 1) return false;
 
-	return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
+	return std::abs(l - r) <= 1;
+	// return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
 }
 
-template<typename Key, typename Value>
-bool BinarySearchTree<Key, Value>::isBalanced(Node<Key,Value> *curr) const
-{
-   if (curr == nullptr)
-		return true;
+// template<typename Key, typename Value>
+// bool BinarySearchTree<Key, Value>::isBalanced(Node<Key,Value> *curr) const
+// {
+//    if (curr == nullptr)
+// 		return true;
 
-	int l = getHeight(curr->getLeft());
-	int r = getHeight(curr->getRight());
+// 	int l = getHeight(curr->getLeft());
+// 	int r = getHeight(curr->getRight());
 
-	if (std::abs(l - r) > 1) return false;
+// 	if (std::abs(l - r) > 1) return false;
 
-	return isBalanced(curr->getLeft()) && isBalanced(curr->getRight());
-}
+// 	return isBalanced(curr->getLeft()) && isBalanced(curr->getRight());
+// }
 
 template<typename Key, typename Value>
 int BinarySearchTree<Key, Value>::getHeight(Node<Key,Value> *curr) {
