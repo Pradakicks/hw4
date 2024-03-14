@@ -200,6 +200,7 @@ public:
     virtual void remove(const Key& key); //TODO
     void clear(); //TODO
     bool isBalanced() const; //TODO
+    bool isBalanced(Node<Key,Value>* curr) const; //TODO
     void print() const;
     bool empty() const;
 
@@ -376,7 +377,6 @@ BinarySearchTree<Key, Value>::BinarySearchTree() : root_(nullptr)
 template<typename Key, typename Value>
 BinarySearchTree<Key, Value>::~BinarySearchTree()
 {
-    // TODO
     clear();
 }
 
@@ -501,10 +501,12 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     Node<Key, Value>*removalNode = internalFind(key);
     // To do try writing helper function for removing one child and no child
     if(removalNode){
-        // if(root_ == removalNode){
-        //     delete root_;
-        // } else 
+        
         if(!removalNode->getLeft() && !removalNode->getRight()){
+            if(root_ == removalNode){
+                delete root_;
+                return;
+            } 
             removeNode(removalNode);
         } else if(removalNode->getLeft() && removalNode->getRight()){
             nodeSwap(removalNode, predecessor(removalNode));
@@ -598,7 +600,7 @@ void BinarySearchTree<Key, Value>::clear()
 {
     // TODO
     while(getSmallestNode()){
-        removeNode(getSmallestNode());
+        remove(getSmallestNode()->getKey());
     }
     root_ = nullptr;
 }
@@ -656,6 +658,19 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
 	return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
 }
 
+template<typename Key, typename Value>
+bool BinarySearchTree<Key, Value>::isBalanced(Node<Key,Value> *curr) const
+{
+   if (curr == nullptr)
+		return true;
+
+	int l = getHeight(curr->getLeft());
+	int r = getHeight(curr->getRight());
+
+	if (std::abs(l - r) > 1) return false;
+
+	return isBalanced(curr->getLeft()) && isBalanced(curr->getRight());
+}
 
 template<typename Key, typename Value>
 int BinarySearchTree<Key, Value>::getHeight(Node<Key,Value> *curr) {
