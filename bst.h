@@ -653,7 +653,7 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
 
 	if (std::abs(l - r) > 1) return false;
 
-	return isBalanced(root_->left) && isBalanced(root_->right);
+	return isBalanced(root_->getLeft()) && isBalanced(root_->getRight());
 }
 
 
