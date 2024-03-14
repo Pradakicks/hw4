@@ -648,8 +648,8 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
    if (root_ == nullptr)
 		return true;
 
-	int l = getHeight(root_->left);
-	int r = getHeight(root_->right);
+	int l = getHeight(root_->getLeft());
+	int r = getHeight(root_->getRight());
 
 	if (std::abs(l - r) > 1) return false;
 
@@ -662,8 +662,8 @@ int BinarySearchTree<Key, Value>::getHeight(Node<Key,Value> *curr) {
 	if (curr == nullptr)
 		return 0;
 	
-	int lHeight = getHeight(curr->left);
-	int rHeight = getHeight(curr->right);
+	int lHeight = getHeight(curr->getLeft());
+	int rHeight = getHeight(curr->getRight());
 
 	return 1 + std::max(lHeight, rHeight);
 }
