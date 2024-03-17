@@ -523,7 +523,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         } else if(removalNode->getLeft() && !removalNode->getRight()){
                 nodeSwap(removalNode, removalNode->getLeft());
                 removeNode(removalNode);
-            } else if(!removalNode->getLeft() && removalNode->getRight()){
+        } else if(!removalNode->getLeft() && removalNode->getRight()){
                 nodeSwap(removalNode, removalNode->getRight());
                 removeNode(removalNode);
             }
@@ -533,7 +533,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 // This should only be called on leaf nodes!
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::removeNode(Node<Key, Value>* node){
-        if(node->getParent()->getRight() == node){
+        if(node->getLeft()){
+            node->getParent()->setLeft(node->getLeft());
+            node->getLeft()->setParent(node->getParent());
+        } else if(node->getRight()){
+            node->getParent()->setRight(node->getRight());
+            node->getRight()->setParent(node->getParent());
+        } else if(node->getParent()->getRight() == node){
                 node->getParent()->setRight(nullptr);
             } else if(node->getParent()->getLeft() == node){
                 node->getParent()->setLeft(nullptr);
