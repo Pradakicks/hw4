@@ -200,7 +200,7 @@ public:
     virtual void remove(const Key& key); //TODO
     void clear(); //TODO
     bool isBalanced() const; //TODO
-    bool isBalanced(Node<Key,Value>* curr) const; //TODO
+    bool isBalanced(const Node<Key,Value>* curr) const; //TODO
     void print() const;
     bool empty() const;
 
@@ -251,7 +251,7 @@ protected:
 
     // Add helper functions here
     void removeNode(Node<Key, Value>* node);
-    int getHeight(Node<Key,Value> *curr);
+    int getHeight(const Node<Key,Value> *curr) const;
     void postOrderRemoval(Node<Key,Value> *curr);
 
 
@@ -670,7 +670,7 @@ bool BinarySearchTree<Key, Value>::isBalanced() const
 }
 
 template<typename Key, typename Value>
-bool BinarySearchTree<Key, Value>::isBalanced(Node<Key,Value> *curr) const
+bool BinarySearchTree<Key, Value>::isBalanced(const Node<Key,Value> *curr) const
 {
    if (curr == nullptr)
 		return true;
@@ -684,7 +684,7 @@ bool BinarySearchTree<Key, Value>::isBalanced(Node<Key,Value> *curr) const
 }
 
 template<typename Key, typename Value>
-int BinarySearchTree<Key, Value>::getHeight(Node<Key,Value> *curr) {
+int BinarySearchTree<Key, Value>::getHeight(const Node<Key,Value> *curr) const {
 	if (curr == nullptr)
 		return 0;
 	
