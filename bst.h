@@ -251,6 +251,7 @@ protected:
 
     // Add helper functions here
     void removeNode(Node<Key, Value>* node);
+    void removeOneChildNode(Node<Key, Value>* node);
     int getHeight(const Node<Key,Value> *curr) const;
     void postOrderRemoval(Node<Key,Value> *curr);
 
@@ -514,19 +515,14 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             nodeSwap(removalNode, predecessor(removalNode));
             if(!removalNode->getLeft() && !removalNode->getRight()){
                 removeNode(removalNode);
-            }  else if(removalNode->getLeft() && !removalNode->getRight()){
-                nodeSwap(removalNode, removalNode->getLeft());
-                removeNode(removalNode);
-            } else if(!removalNode->getLeft() && removalNode->getRight()){
-                nodeSwap(removalNode, removalNode->getRight());
-                removeNode(removalNode);
+            } else {
+                removeOneChildNode(removalNode);
             }
         } else if(removalNode->getLeft() && !removalNode->getRight()){
-                nodeSwap(removalNode, removalNode->getLeft());
-                removeNode(removalNode);
+                removeOneChildNode(removalNode);
+
         } else if(!removalNode->getLeft() && removalNode->getRight()){
-                nodeSwap(removalNode, removalNode->getRight());
-                removeNode(removalNode);
+                removeOneChildNode(removalNode);
             }
     }
 }
@@ -535,11 +531,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::removeNode(Node<Key, Value>* node){
         if(node->getLeft()){
-            node->getParent()->setLeft(node->getLeft());
-            node->getLeft()->setParent(node->getParent());
+            // nodeSwap(node, node->getLeft());
+            // node->getParent()->setLeft(node->getLeft());
+            // node->getLeft()->setParent(node->getParent());
         } else if(node->getRight()){
-            node->getParent()->setRight(node->getRight());
-            node->getRight()->setParent(node->getParent());
+            // node->getParent()->setRight(node->getRight());
+            // node->getRight()->setParent(node->getParent());
+            // nodeSwap(node, node->getRight());
         } else if(node->getParent()->getRight() == node){
                 node->getParent()->setRight(nullptr);
         } else if(node->getParent()->getLeft() == node){
@@ -547,6 +545,31 @@ void BinarySearchTree<Key, Value>::removeNode(Node<Key, Value>* node){
          }
             delete node;
 }
+
+// This should only be called on one child nodes!
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::removeOneChildNode(Node<Key, Value>* node){
+       if(node->getLeft() && !node->getRight()){
+                 if(node->getParent()->getLeft() == node){
+                    node->getParent()->setLeft(node->getLeft());
+                    node->getLeft()->setParent(node->getParent());
+                } else {
+                    node->getParent()->setRight(node->getLeft());
+                    node->getLeft()->setParent(node->getParent());
+                }
+                delete node;
+        } else if(!node->getLeft() && node->getRight()){
+                if(node->getParent()->getLeft() == node){
+                    node->getParent()->setLeft(node->getRight());
+                    node->getRight()->setParent(node->getParent());
+                } else {
+                    node->getParent()->setRight(node->getRight());
+                    node->getRight()->setParent(node->getParent());
+                }
+                delete node;
+            }
+}
+
 
 
 
